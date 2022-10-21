@@ -33,6 +33,7 @@ def history(status=None, platform=None, ayr_id=None, display="full", lastRecords
         params["status"] = status
 
     if ayr_id is not None:
+        ayr_id = ayr_id.strip().rstrip(',')  # Strip whitespace, strip trailing commas
         if platform is not None:
             raise ValueError("one of platform or ayr_id must be specified as None")
 
@@ -49,3 +50,14 @@ def history(status=None, platform=None, ayr_id=None, display="full", lastRecords
             if platform is None or platform in item["platforms"]:
                 out.append(item)
         return out
+
+def delete_post(post_id):
+
+    payload = {'id': post_id}
+    #headers = {'Content-Type': 'application/json',
+
+    r = requests.delete('https://app.ayrshare.com/api/post',
+        json=payload,
+        headers=headers)
+
+    return(r.json())
