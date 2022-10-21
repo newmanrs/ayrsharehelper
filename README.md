@@ -1,2 +1,3 @@
 # ayrsharehelper
-CLI + python module for working with and debugging ayrshare social media uploads to different platforms
+
+Click CLI + python module for interacting with and debugging [ayrshare](https://www.ayrshare.com/) social media uploads to different platforms.  
