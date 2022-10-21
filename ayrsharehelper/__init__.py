@@ -49,5 +49,4 @@ def history(status=None, platform=None, ayr_id=None, display="full", lastRecords
         for item in res:
             if platform is None or platform in item["platforms"]:
                 out.append(item)
-
         return out
