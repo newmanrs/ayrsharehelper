@@ -17,14 +17,12 @@ def rg(*args, **kwargs):
     try:
         res.raise_for_status()  # We probably ought to customize more than this
     except requests.exceptions.HTTPError as e:
+        # Ayrshare is fond of returnign status_code 400 for error, but then an actual
+        # error message with a 2xx code...
         msg = f"status_code: {res.status_code}\nurl: {res.url}\n, res.text={res.text}"
         raise requests.exceptions.HTTPError(msg) from e
 
     return res.json()
-
-
-def hello_world():
-    return "hello_world"
 
 
 def history(status=None, platform=None, ayr_id=None, display="full", lastRecords=500):
@@ -47,6 +45,7 @@ def history(status=None, platform=None, ayr_id=None, display="full", lastRecords
         out = []
         res = rg(url, params=params, headers=headers)
         for item in res:
+            # Filter
             if platform is None or platform in item["platforms"]:
                 out.append(item)
         return out
