@@ -27,20 +27,27 @@ def hello_world():
     return "hello_world"
 
 
-def history(status=None, platform=None):
+def history(status=None, platform=None, ayr_id=None, display="full", lastRecords=500):
 
     # Statuses ["success", "error", "processing", "pending", "deleted", "awaiting"]
-
-    params = {}
+    params = {'lastDays' : 0, 'lastRecords': lastRecords}
     if status is not None:
         params["status"] = status
 
-    res = rg("https://app.ayrshare.com/api/history", params=params, headers=headers)
+    if ayr_id is not None:
+        if platform is not None:
+            raise ValueError("one of platform or ayr_id must be specified as None")
 
-    out=[]
-    for item in res:
-        #print(platform)
-        if platform is None or platform in item['platforms']:
-            out.append(item)
+    url = "https://app.ayrshare.com/api/history"
+    if ayr_id:
+        url += f"/{ayr_id}"  # Responses are significantly different format
+        res = rg(url, params=params, headers=headers)
+        return [res]
+    else:
+        out = []
+        res = rg(url, params=params, headers=headers)
+        for item in res:
+            if platform is None or platform in item["platforms"]:
+                out.append(item)
 
-    return out
+        return out
