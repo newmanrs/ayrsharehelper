@@ -2,12 +2,24 @@ import requests
 import json
 import os
 
-if os.environ.get("AWS_LAMBDA_FUNCTION_NAME") is None:
-    ayrkey = os.environ["AYRSHARE_API_KEY_AME"]
-    headers = {"Authorization": f"Bearer {ayrkey}"}
-else:
-    raise NotImplementedError("AWS Lambda secrets not implemented yet")
+def config_headers():
+    if os.environ.get("AWS_LAMBDA_FUNCTION_NAME") is None:
+        print("Configure keys")
+        ayr_brand_account = os.environ.get("AYR_BRAND_ACCOUNT")
+        key_var = "AYRSHARE_API_KEY_AME"
+        if ayr_brand_account is not None:
+            key_var += '_'+ayr_brand_account
 
+        ayrkey = os.environ[key_var]
+        headers = {"Authorization": f"Bearer {ayrkey}"}
+    else:
+        ayrkey = None  # AWS_LAMBDA_FUNCTION_NAME must set these
+        headers = None  # AWS_LAMBDA_FUNCTION_NAME must set these
+
+    return headers
+
+headers = config_headers()
+print(headers)
 
 def rg(*args, **kwargs):
     """
