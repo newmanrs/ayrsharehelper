@@ -21,15 +21,15 @@ def cli(ctx):
     "--status-filter",
     "-s",
     type=click.Choice(
-        ["all", "success", "error", "processing", "pending", "deleted", "awaiting"],
+        ["default", "success", "error", "processing", "scheduled", "pending", "deleted", "awaiting"],
     ),
-    default="all",
+    default="default",
     help="Apply a filter by status category to the history API call",
 )
 @click.option(
     "--platform-filter",
     "-p",
-    type=click.Choice(["all", "linkedin", "twitter", "linkedin", "youtube"]),
+    type=click.Choice(["all", "linkedin", "twitter", "linkedin", "youtube"]), ##FIX
     default="all",
     help="Filter results to a specific platform only",
 )
@@ -50,7 +50,7 @@ def cli(ctx):
 )
 def history(ctx, status_filter, platform_filter, ayr_socialpost_id, no_indent, display):
 
-    if status_filter == "all":
+    if status_filter == "default":
         status_filter = None
 
     if platform_filter == "all":
@@ -83,5 +83,7 @@ def history(ctx, status_filter, platform_filter, ayr_socialpost_id, no_indent, d
     help="DELETE a specific social post by id.",
 )
 def delete_post(ctx, ayr_socialpost_id):
-    
+    """
+    The power to delete posts!
+    """
     click.echo(json.dumps(ah.delete_post(ayr_socialpost_id),indent=2))

@@ -5,8 +5,8 @@ import os
 def config_headers():
     if os.environ.get("AWS_LAMBDA_FUNCTION_NAME") is None:
         print("Configure keys")
-        ayr_brand_account = os.environ.get("AYR_BRAND_ACCOUNT")
-        key_var = "AYRSHARE_API_KEY_AME"
+        ayr_brand_account = os.environ.get("AYRSHARE_BRAND_ACCOUNT")
+        key_var = "AYRSHARE_API_KEY"
         if ayr_brand_account is not None:
             key_var += '_'+ayr_brand_account
 
@@ -19,7 +19,7 @@ def config_headers():
     return headers
 
 headers = config_headers()
-print(headers)
+
 
 def rg(*args, **kwargs):
     """
