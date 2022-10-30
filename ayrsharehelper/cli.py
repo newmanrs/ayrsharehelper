@@ -21,7 +21,16 @@ def cli(ctx):
     "--status-filter",
     "-s",
     type=click.Choice(
-        ["default", "success", "error", "processing", "scheduled", "pending", "deleted", "awaiting"],
+        [
+            "default",
+            "success",
+            "error",
+            "processing",
+            "scheduled",
+            "pending",
+            "deleted",
+            "awaiting",
+        ],
     ),
     default="default",
     help="Apply a filter by status category to the history API call",
@@ -29,7 +38,7 @@ def cli(ctx):
 @click.option(
     "--platform-filter",
     "-p",
-    type=click.Choice(["all", "linkedin", "twitter", "linkedin", "youtube"]), ##FIX
+    type=click.Choice(["all", "linkedin", "twitter", "linkedin", "youtube"]),  ##FIX
     default="all",
     help="Filter results to a specific platform only",
 )
@@ -73,6 +82,7 @@ def history(ctx, status_filter, platform_filter, ayr_socialpost_id, no_indent, d
                 f"missing implementation for display value {display}"
             )
 
+
 @cli.command()
 @click.pass_context
 @click.option(
@@ -86,4 +96,32 @@ def delete_post(ctx, ayr_socialpost_id):
     """
     The power to delete posts!
     """
-    click.echo(json.dumps(ah.delete_post(ayr_socialpost_id),indent=2))
+    click.echo(json.dumps(ah.delete_post(ayr_socialpost_id), indent=2))
+
+
+@cli.command()
+@click.pass_context
+def analytics_platforms(ctx):
+    """
+    Summarize statistics for each platform
+    """
+    click.echo(json.dumps(ah.analytics_platforms(), indent=2))
+
+
+@cli.command()
+@click.pass_context
+@click.option(
+    "--post_id",
+    "-i",
+    type=str,
+    default=None,
+    help="Query a specific social post by id.",
+)
+def analytics(ctx, post_id):
+    """
+    Statistics for a given post id
+    """
+    if post_id is None:
+        click.echo("Provide a post id")
+    else:
+        click.echo(json.dumps(ah.analytics_post(post_id), indent=2))
