@@ -38,7 +38,7 @@ def cli(ctx):
 @click.option(
     "--platform-filter",
     "-p",
-    type=click.Choice(["all", "linkedin", "twitter", "linkedin", "youtube"]),  ##FIX
+    type=click.Choice(["all", "linkedin", "twitter", "linkedin", "youtube", "facebook"]),  ##FIX
     default="all",
     help="Filter results to a specific platform only",
 )
